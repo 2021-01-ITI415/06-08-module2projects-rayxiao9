@@ -166,6 +166,11 @@ public class Deck : MonoBehaviour {
 			card.name = cardNames[i];
 			card.suit = card.name[0].ToString();
 			card.rank = int.Parse (card.name.Substring (1));
+
+			int num = Random.Range(0, 100);
+			if (num <= 10) {
+				card.isGold = true;
+			}
 			
 			if (card.suit =="D" || card.suit == "H") {
 				card.colS = "Red";
@@ -238,9 +243,23 @@ public class Deck : MonoBehaviour {
 				tGO.name = "face";
 			}
 
+			if (card.isGold) {
+				tGO = Instantiate(prefabSprite) as GameObject;
+				tSR = tGO.GetComponent<SpriteRenderer>();
+				tSR.sprite = cardFrontGold;
+				tGO.transform.parent=card.transform;
+				tGO.transform.localPosition = Vector3.zero;
+				tSR.sortingOrder = 2;
+				tGO.name = "front";
+			}
+
 			tGO = Instantiate(prefabSprite) as GameObject;
 			tSR = tGO.GetComponent<SpriteRenderer>();
-			tSR.sprite = cardBack;
+			if (!card.isGold) {
+				tSR.sprite = cardBack;
+			} else {
+				tSR.sprite = cardBackGold;
+			}
 			tGO.transform.SetParent(card.transform);
 			tGO.transform.localPosition=Vector3.zero;
 			tSR.sortingOrder = 2;

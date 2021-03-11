@@ -23,6 +23,7 @@ public class ScoreManager : MonoBehaviour {     // a
     public int chain = 0;
     public int scoreRun = 0;
     public int score = 0;
+    public int golds = 0;
 
     void Awake() {
         if (S == null) {                        // c
@@ -53,18 +54,26 @@ public class ScoreManager : MonoBehaviour {     // a
         switch (evt) {
             // Same things need to happen whether it's a draw, a win, or a loss
             case eScoreEvent.draw:      // Drawing a card
+                chain = 0;              // resets the score chain
+                while (golds > 0) {
+                    scoreRun *= 2;
+                    golds--;
+                }
+                score += scoreRun;      // add scoreRun to total score
+                scoreRun = 0;           // reset scoreRun
+                break;
 
             case eScoreEvent.gameWin:   // Won the round
 
             case eScoreEvent.gameLoss:  // Lost the round
-                chain = 0;              // resets the score chain
-                score += scoreRun;       // add scoreRun to total score
-                scoreRun = 0;           // reset scoreRun
-                break;
             
             case eScoreEvent.mine:      // Remove a mine card
                 chain++;                // increase the score chain
                 scoreRun += chain;      // add score for this card to run
+                break;
+            
+            case eScoreEvent.mineGold:
+                golds++;
                 break;
         }
 

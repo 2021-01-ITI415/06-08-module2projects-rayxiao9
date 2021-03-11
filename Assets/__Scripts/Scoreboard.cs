@@ -50,7 +50,8 @@ public class Scoreboard : MonoBehaviour
 
     // When called by SendMessage, this adds the fs.score to this.score
     public void FSCallback(FloatingScore fs) {
-        score += fs.score;
+        fs.score = ScoreManager.SCORE;
+        score = fs.score;
     }
 
     // This will instantiate a new FloatingScore GameObject and initialize it.

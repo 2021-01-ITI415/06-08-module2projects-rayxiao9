@@ -149,6 +149,10 @@ public class Prospector : MonoBehaviour {
 		// Set up the initial target card
 		MoveToTarget(Draw());
 
+		if (target.isGold) {
+			ScoreManager.EVENT(eScoreEvent.mineGold);
+		}
+
 		// Set up the Draw pile
 		UpdateDrawPile();
 	}
@@ -210,6 +214,7 @@ public class Prospector : MonoBehaviour {
 			layout.multiplier.y * layout.discardPile.y,
 			-layout.discardPile.layerID);
 		cd.faceUp = true; // Make it face-up
+
 		// Set the depth sorting
 		cd.SetSortingLayerName(layout.discardPile.layerName);
 		cd.SetSortOrder(0);
@@ -251,6 +256,9 @@ public class Prospector : MonoBehaviour {
 				UpdateDrawPile(); // Restacks the drawPile
 				ScoreManager.EVENT(eScoreEvent.draw);
 				FloatingScoreHandler(eScoreEvent.draw);
+				if (target.isGold) {
+					ScoreManager.EVENT(eScoreEvent.mineGold);
+				}
 				break;
 			case eCardState.tableau:
 				// Clicking a card in the tableau will check if it's a valid play
@@ -271,6 +279,9 @@ public class Prospector : MonoBehaviour {
 				SetTableauFaces(); // Update the tableau card face-ups
 				ScoreManager.EVENT(eScoreEvent.mine);
 				FloatingScoreHandler(eScoreEvent.mine);
+				if (cd.isGold) {
+					ScoreManager.EVENT(eScoreEvent.mineGold);
+				}
 				break;
 		}
 		// Check to see if whether the game is over or not

@@ -23,6 +23,7 @@ public class Deck : MonoBehaviour {
 	// Prefabs
 	public GameObject prefabSprite;
 	public GameObject prefabCard;
+	public int goldCardChance = 10;
 
 	[Header("Set Dynamically")]
 
@@ -168,7 +169,7 @@ public class Deck : MonoBehaviour {
 			card.rank = int.Parse (card.name.Substring (1));
 
 			int num = Random.Range(0, 100);
-			if (num <= 10) {
+			if (num <= goldCardChance) {
 				card.isGold = true;
 			}
 			
@@ -249,7 +250,8 @@ public class Deck : MonoBehaviour {
 				tSR.sprite = cardFrontGold;
 				tGO.transform.parent=card.transform;
 				tGO.transform.localPosition = Vector3.zero;
-				tSR.sortingOrder = 2;
+				tGO.transform.position = new Vector3(tGO.transform.position.x, tGO.transform.position.y, 0.1f);
+				tSR.sortingOrder = 0;
 				tGO.name = "front";
 			}
 

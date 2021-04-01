@@ -212,6 +212,7 @@ public class Golf : MonoBehaviour {
 			layout.multiplier.y * layout.discardPile.y,
 			-layout.discardPile.layerID);
 		cd.faceUp = true; // Make it face-up
+        cd.isActive = true;
 
 		// Set the depth sorting
 		cd.SetSortingLayerName(layout.discardPile.layerName);

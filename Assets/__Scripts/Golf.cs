@@ -309,7 +309,20 @@ public class Golf : MonoBehaviour {
 
 	// Called when the game is over. Simple for now, but expandable
 	void GameOver(bool won) {
-		int score = ScoreManager.SCORE;
+		int score = 0;
+        bool emptyTab = true;
+
+        foreach (CardGolf cd in tableau) {
+            score++;
+            emptyTab = false;
+        }
+
+        if (score == 0 && emptyTab) {
+            foreach (CardGolf cd in drawPile) {
+                score--;
+            }
+        }
+
 		if (won) {
 			gameOverText.text = "Round Over";
 			roundResultText.text = "You won this round!\nRound Score: " + score;
@@ -317,6 +330,7 @@ public class Golf : MonoBehaviour {
 			// print("Game Over. You won! :)");
 		} else {
 			gameOverText.text = "Game Over";
+            roundResultText.text = "You lost this round\nRound Score: " + score;
 			ShowResultsUI(true);
 			// print("Game Over. You lost. :(");
 		}
@@ -336,7 +350,7 @@ public class Golf : MonoBehaviour {
 	// Return true if the two cards are adjacent in rank (A & K wrap around)
 	public bool AdjacentRank(CardGolf c0, CardGolf c1) {
 		// If either card is face-down, it's not-adjacent
-		if (!c0.faceUp || !c1.faceUp) return(false);
+		if (!c0.isActive || !c1.isActive) return(false);
 
 		// If they are 1 apart, they are adjacent
 		if (Mathf.Abs(c0.rank - c1.rank) == 1) {

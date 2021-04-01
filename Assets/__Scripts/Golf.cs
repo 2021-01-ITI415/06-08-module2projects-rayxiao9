@@ -326,12 +326,12 @@ public class Golf : MonoBehaviour {
 
 		if (won) {
 			gameOverText.text = "Round Over";
-			roundResultText.text = "You won this round!\nRound Score: " + score;
+			roundResultText.text = "You won this round!\nScore: " + score;
 			ShowResultsUI(true);
 			// print("Game Over. You won! :)");
 		} else {
 			gameOverText.text = "Game Over";
-            roundResultText.text = "You lost this round\nRound Score: " + score;
+            roundResultText.text = "You lost this round\nScore: " + score;
 			ShowResultsUI(true);
 			// print("Game Over. You lost. :(");
 		}

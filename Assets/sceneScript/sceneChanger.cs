@@ -12,7 +12,7 @@ public class sceneChanger : MonoBehaviour
 
     public void LoadScene2()
     {
-        SceneManager.LoadScene("__Gold_Solitaire_Scene");
+        SceneManager.LoadScene("__Golf_Solitaire_Scene");
     }
 
 }

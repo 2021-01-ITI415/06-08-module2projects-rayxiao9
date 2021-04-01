@@ -184,12 +184,16 @@ public class Deck : MonoBehaviour {
 			foreach (Decorator deco in decorators) {
 				tGO = Instantiate(prefabSprite) as GameObject;
 				tSR = tGO.GetComponent<SpriteRenderer>();
-				if (deco.type == "suit") {
+				if (deco.type == "suit" && card.def.rank <= 10) {
 					tSR.sprite = dictSuits[card.suit];
 				} else { // it is a rank
 					tS = rankSprites[card.rank];
 					tSR.sprite = tS;
 					tSR.color = card.color;
+				}
+
+				if (card.def.rank > 10 && deco.type == "suit") {
+					continue;
 				}
 				
 				tSR.sortingOrder = 1;                     // make it render above card
@@ -200,8 +204,12 @@ public class Deck : MonoBehaviour {
 					tGO.transform.rotation = Quaternion.Euler(0,0,180);
 				}
 				
-				if (deco.scale != 1) {
+				if (deco.scale != 1 && card.def.rank <= 10) {
 					tGO.transform.localScale = Vector3.one * deco.scale;
+				}
+
+				if (deco.scale != 1 && card.def.rank > 10) {
+					tGO.transform.localScale = Vector3.one * 1.5f;
 				}
 				
 				tGO.name = deco.type;
@@ -268,6 +276,7 @@ public class Deck : MonoBehaviour {
 			tGO.name = "back";
 			card.back = tGO;
 			card.faceUp = false;
+			card.isActive = false;
 			
 			cards.Add (card);
 		} // for all the Cardnames	

@@ -9,6 +9,7 @@ public class Card : MonoBehaviour {
 	public Color     color = Color.black;
 	public string    colS = "Black";  // or "Red"
 	public bool 	 isGold = false;
+	public bool		 isActive = false;
 	
 	public List<GameObject> decoGOs = new List<GameObject>();
 	public List<GameObject> pipGOs = new List<GameObject>();

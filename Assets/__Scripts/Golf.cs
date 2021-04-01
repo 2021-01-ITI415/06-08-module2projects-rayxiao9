@@ -20,7 +20,7 @@ public class Golf : MonoBehaviour {
 	public Vector2 fsPosMid2 = new Vector2(0.4f, 1.0f);
 	public Vector2 fsPosEnd = new Vector2(0.5f, 0.95f);
 	public float reloadDelay = 2f; // 2 sec delay between rounds
-	public Text gameOverText, roundResultText, highScoreText;
+	public Text gameOverText, roundResultText;
 
 
 	[Header("Set Dynamically")]
@@ -39,17 +39,8 @@ public class Golf : MonoBehaviour {
 	}
 
 	void SetUpUITexts() {
-		// Set up the HighScore UI Text
-		GameObject go = GameObject.Find("HighScore");
-		if (go != null) {
-			highScoreText = go.GetComponent<Text>();
-		}
-		int highScore = ScoreManager.HIGH_SCORE;
-		string hScore = "High Score: " + Utils.AddCommasToNumber(highScore);
-		go.GetComponent<Text>().text = hScore;
-
 		// Set up the UI Texts that show at the end of the round
-		go = GameObject.Find("GameOver");
+		GameObject go = GameObject.Find("GameOver");
 		if (go != null) {
 			gameOverText = go.GetComponent<Text>();
 		}
@@ -345,12 +336,6 @@ public class Golf : MonoBehaviour {
 			FloatingScoreHandler(eScoreEvent.gameWin);
 		} else {
 			gameOverText.text = "Game Over";
-			if (ScoreManager.HIGH_SCORE <= score) {
-				string str = "You got the high score!\nHigh score: " + score;
-				roundResultText.text = str;
-			} else {
-				roundResultText.text = "Your final score was: " + score;
-			}
 			ShowResultsUI(true);
 			// print("Game Over. You lost. :(");
 			ScoreManager.EVENT(eScoreEvent.gameLoss);

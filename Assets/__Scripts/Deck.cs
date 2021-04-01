@@ -168,7 +168,7 @@ public class Deck : MonoBehaviour {
 			card.suit = card.name[0].ToString();
 			card.rank = int.Parse (card.name.Substring (1));
 
-			int num = Random.Range(0, 100);
+			int num = Random.Range(1, 101);
 			if (num <= goldCardChance) {
 				card.isGold = true;
 			}

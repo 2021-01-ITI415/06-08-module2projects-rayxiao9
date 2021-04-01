@@ -31,7 +31,6 @@ public class Golf : MonoBehaviour {
 	public CardGolf target;
 	public List<CardGolf> tableau;
 	public List<CardGolf> discardPile;
-	public FloatingScore fsRun;
 
 	void Awake(){
 		S = this;
@@ -60,7 +59,6 @@ public class Golf : MonoBehaviour {
 	}
 
 	void Start() {
-		Scoreboard.S.score = ScoreManager.SCORE;
 
 		deck = GetComponent<Deck> ();
 		deck.InitDeck (deckXML.text);
@@ -139,10 +137,6 @@ public class Golf : MonoBehaviour {
 
 		// Set up the initial target card
 		MoveToTarget(Draw());
-
-		if (target.isGold) {
-			ScoreManager.EVENT(eScoreEvent.mineGold);
-		}
 
 		// Set up the Draw pile
 		UpdateDrawPile();
@@ -258,10 +252,6 @@ public class Golf : MonoBehaviour {
 				MoveToDiscard(target); // Moves the target to the discardPile
 				MoveToTarget(Draw()); // Moves the next drawn card to the target
 				UpdateDrawPile(); // Restacks the drawPile
-				ScoreManager.EVENT(eScoreEvent.draw);
-				if (target.isGold) {
-					ScoreManager.EVENT(eScoreEvent.mineGold);
-				}
 				break;
 			case eCardStateGolf.tableau:
 				// Clicking a card in the tableau will check if it's a valid play
@@ -284,10 +274,6 @@ public class Golf : MonoBehaviour {
 				MoveToTarget(cd); // Make it the target card
 				SetTableauFaces(); // Update the tableau card face-ups
 				SetTableauActive();
-				ScoreManager.EVENT(eScoreEvent.mine);
-				if (cd.isGold) {
-					ScoreManager.EVENT(eScoreEvent.mineGold);
-				}
 				break;
 		}
 		// Check to see if whether the game is over or not
@@ -324,18 +310,15 @@ public class Golf : MonoBehaviour {
 	// Called when the game is over. Simple for now, but expandable
 	void GameOver(bool won) {
 		int score = ScoreManager.SCORE;
-		if (fsRun != null) score += fsRun.score;
 		if (won) {
 			gameOverText.text = "Round Over";
 			roundResultText.text = "You won this round!\nRound Score: " + score;
 			ShowResultsUI(true);
 			// print("Game Over. You won! :)");
-			ScoreManager.EVENT(eScoreEvent.gameWin);
 		} else {
 			gameOverText.text = "Game Over";
 			ShowResultsUI(true);
 			// print("Game Over. You lost. :(");
-			ScoreManager.EVENT(eScoreEvent.gameLoss);
 		}
 		// Reload the scene, resetting the game
 		// SceneManager.LoadScene("__Prospector_Scene_0");

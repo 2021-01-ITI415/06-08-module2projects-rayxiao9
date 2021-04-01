@@ -259,7 +259,6 @@ public class Golf : MonoBehaviour {
 				MoveToTarget(Draw()); // Moves the next drawn card to the target
 				UpdateDrawPile(); // Restacks the drawPile
 				ScoreManager.EVENT(eScoreEvent.draw);
-				FloatingScoreHandler(eScoreEvent.draw);
 				if (target.isGold) {
 					ScoreManager.EVENT(eScoreEvent.mineGold);
 				}
@@ -286,7 +285,6 @@ public class Golf : MonoBehaviour {
 				SetTableauFaces(); // Update the tableau card face-ups
 				SetTableauActive();
 				ScoreManager.EVENT(eScoreEvent.mine);
-				FloatingScoreHandler(eScoreEvent.mine);
 				if (cd.isGold) {
 					ScoreManager.EVENT(eScoreEvent.mineGold);
 				}
@@ -333,13 +331,11 @@ public class Golf : MonoBehaviour {
 			ShowResultsUI(true);
 			// print("Game Over. You won! :)");
 			ScoreManager.EVENT(eScoreEvent.gameWin);
-			FloatingScoreHandler(eScoreEvent.gameWin);
 		} else {
 			gameOverText.text = "Game Over";
 			ShowResultsUI(true);
 			// print("Game Over. You lost. :(");
 			ScoreManager.EVENT(eScoreEvent.gameLoss);
-			FloatingScoreHandler(eScoreEvent.gameLoss);
 		}
 		// Reload the scene, resetting the game
 		// SceneManager.LoadScene("__Prospector_Scene_0");
@@ -369,52 +365,6 @@ public class Golf : MonoBehaviour {
 
 		//Otherwise, return false
 		return(false);
-	}
-
-	// Handle FloatingScore movement
-	void FloatingScoreHandler(eScoreEvent evt) {
-		List<Vector2> fsPts;
-		switch (evt) {
-			// Same things need to happen whether it's a draw, a win, or a loss
-			case eScoreEvent.draw:		// Drawing a card
-			case eScoreEvent.gameWin:	// Won the round
-			case eScoreEvent.gameLoss:	// Lost the round
-				// Add fsRun to the Scoreboard score
-				if (fsRun != null) {
-					// Create points for the Bézier curve
-					fsPts = new List<Vector2>();
-					fsPts.Add(fsPosRun);
-					fsPts.Add(fsPosMid2);
-					fsPts.Add(fsPosEnd);
-					fsRun.reportFinishTo = Scoreboard.S.gameObject;
-					fsRun.Init(fsPts, 0, 1);
-					// Also adjust the fontSize
-					fsRun.fontSizes = new List<float>(new float[] {28, 36, 4});
-					fsRun = null; // Clear fsRun so it's created again
-				}
-				break;
-
-			case eScoreEvent.mine: // Remove a mine card
-				// Create a FloatingScore for this score
-				FloatingScore fs;
-				// Move it from the mousePosition to fsPosRun
-				Vector2 p0 = Input.mousePosition;
-				p0.x /= Screen.width;
-				p0.y /= Screen.height;
-				fsPts = new List<Vector2>();
-				fsPts.Add(p0);
-				fsPts.Add(fsPosMid);
-				fsPts.Add(fsPosRun);
-				fs = Scoreboard.S.CreateFloatingScore(ScoreManager.CHAIN, fsPts);
-				fs.fontSizes = new List<float>(new float[] {4, 50, 28});
-				if (fsRun == null) {
-					fsRun = fs;
-					fsRun.reportFinishTo = null;
-				} else {
-					fs.reportFinishTo = fsRun.gameObject;
-				}
-				break;
-		}
 	}
 
 }

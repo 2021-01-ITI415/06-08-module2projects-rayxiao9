@@ -616,7 +616,7 @@ MonoBehaviour:
   fsPosRun: {x: 0.5, y: 0.75}
   fsPosMid2: {x: 0.4, y: 1}
   fsPosEnd: {x: 0.5, y: 0.95}
-  reloadDelay: 2
+  reloadDelay: 4
   gameOverText: {fileID: 0}
   roundResultText: {fileID: 0}
   deck: {fileID: 0}
